@@ -1,0 +1,60 @@
+{
+  "/fhir": {
+    "target": "http://localhost:18080",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/quality-measure": {
+    "target": "http://localhost:18080",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/cql-engine": {
+    "target": "http://localhost:18080",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/care-gap": {
+    "target": "http://localhost:18080",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/patient/": {
+    "target": "http://localhost:18080",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/demo": {
+    "target": "http://localhost:18080",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/api/v1/audit": {
+    "target": "http://localhost:18080",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/api/v1/compliance": {
+    "target": "http://localhost:18080",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/monitoring/prometheus": {
+    "target": "http://localhost:9090",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/monitoring/prometheus": "/"
+    }
+  },
+  "/quality-measure/ws": {
+    "target": "http://localhost:18092",
+    "secure": false,
+    "ws": true
+  },
+  "/ws": {
+    "target": "ws://localhost:18080",
+    "secure": false,
+    "ws": true
+  }
+}
