@@ -15,8 +15,6 @@ export const API_CONFIG = {
   PROMETHEUS_URL: BASE ? `${BASE}/monitoring/prometheus` : '/monitoring/prometheus',
 
   DEFAULT_TENANT_ID: environment.tenantId,
-  TIMEOUT_MS: 30000,
-  RETRY_ATTEMPTS: 3,
 };
 
 export const FHIR_ENDPOINTS = {

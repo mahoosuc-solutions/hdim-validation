@@ -9,6 +9,7 @@ export interface Patient {
 
 export interface Phenotype {
   id: string;
+  mrn?: string;
   name: string;
   bundle: string;
   expected: PhenotypeExpected;

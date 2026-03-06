@@ -96,14 +96,14 @@ interface PatientSummary {
             <h3>Open Care Gaps</h3>
             <div class="care-gap-list">
               @for (gap of careGaps; track gap.id) {
-                <div class="care-gap-item" [class]="gap.priority?.toLowerCase()">
+                <div class="care-gap-item" [class]="gap.priority.toLowerCase()">
                   <mat-icon>{{ gap.priority === 'HIGH' || gap.priority === 'CRITICAL' ? 'error' : 'warning' }}</mat-icon>
                   <div class="gap-info">
                     <strong>{{ gap.title }}</strong>
                     <span class="gap-desc">{{ gap.description }}</span>
                     <span class="gap-meta">{{ gap.gapType }} | {{ gap.status }}</span>
                   </div>
-                  <app-status-indicator [status]="gap.priority?.toLowerCase() || 'pending'" [label]="gap.priority" />
+                  <app-status-indicator [status]="gap.priority.toLowerCase()" [label]="gap.priority" />
                 </div>
               }
             </div>
@@ -216,7 +216,8 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
   loadPatients(): void {
     this.loading = true;
     this.fhir.getPatients(20).pipe(
-      catchError(() => of({ resourceType: 'Bundle', type: 'searchset', entry: [] } as FhirBundle))
+      catchError(() => of({ resourceType: 'Bundle', type: 'searchset', entry: [] } as FhirBundle)),
+      takeUntil(this.destroy$),
     ).subscribe(bundle => {
       this.loading = false;
       this.patients = (bundle.entry || []).map(e => {

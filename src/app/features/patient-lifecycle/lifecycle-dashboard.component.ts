@@ -137,9 +137,12 @@ export class LifecycleDashboardComponent implements OnInit, OnDestroy {
   }
 
   loadManifest(): void {
-    this.http.get<any>('/assets/manifest.json').subscribe(manifest => {
+    this.http.get<any>('/assets/manifest.json').pipe(
+      takeUntil(this.destroy$),
+    ).subscribe(manifest => {
       this.phenotypes = manifest.phenotypes.map((p: any) => ({
         id: p.id,
+        mrn: p.mrn,
         name: p.name,
         bundle: p.bundle,
         expected: p.expected,
@@ -152,8 +155,7 @@ export class LifecycleDashboardComponent implements OnInit, OnDestroy {
     this.validations = [];
 
     const validations$ = this.phenotypes.map(phenotype => {
-      const mrn = this.getMrn(phenotype.id);
-      return this.fhir.searchPatientByMrn(mrn).pipe(
+      return this.fhir.searchPatientByMrn(phenotype.mrn || phenotype.id).pipe(
         catchError(() => of({ entry: [] } as any)),
         takeUntil(this.destroy$),
       );
@@ -186,6 +188,7 @@ export class LifecycleDashboardComponent implements OnInit, OnDestroy {
     forkJoin({
       conditions: this.fhir.getConditions(patientId).pipe(catchError(() => of({ entry: [] } as any))),
       observations: this.fhir.getObservations(patientId).pipe(catchError(() => of({ entry: [] } as any))),
+      medications: this.fhir.getMedications(patientId).pipe(catchError(() => of({ entry: [] } as any))),
       careGaps: this.qm.getCareGaps(patientId).pipe(catchError(() => of([]))),
       risk: this.qm.getRiskStratification(patientId).pipe(catchError(() => of(null))),
     }).pipe(takeUntil(this.destroy$)).subscribe(data => {
@@ -212,8 +215,8 @@ export class LifecycleDashboardComponent implements OnInit, OnDestroy {
         results.push({ field: 'HbA1c', expected: `${expected.hba1c.value}%`, actual: actual ? `${actual}%` : 'N/A', passed: actual !== undefined && Math.abs(actual - expected.hba1c.value) < 0.5 });
       }
       if (expected.medicationCount) {
-        // Would need med data — mark as pending for now
-        results.push({ field: 'Medications', expected: String(expected.medicationCount), actual: 'Fetching...', passed: false });
+        const actualCount = (data.medications?.entry || []).length;
+        results.push({ field: 'Medications', expected: String(expected.medicationCount), actual: String(actualCount), passed: actualCount >= expected.medicationCount });
       }
 
       const overallPassed = results.length > 0 && results.every(r => r.passed);
@@ -232,15 +235,6 @@ export class LifecycleDashboardComponent implements OnInit, OnDestroy {
       'healthy-pediatric': 'child_care', 'multi-chronic-elderly': 'elderly',
     };
     return map[id] || 'science';
-  }
-
-  private getMrn(phenotypeId: string): string {
-    const map: Record<string, string> = {
-      't2dm-managed': 'SYN-T2DM-M-001', 't2dm-unmanaged': 'SYN-T2DM-U-002',
-      'chf-polypharmacy': 'SYN-CHF-P-003', 'preventive-gaps': 'SYN-PG-004',
-      'healthy-pediatric': 'SYN-PED-H-005', 'multi-chronic-elderly': 'SYN-MCE-006',
-    };
-    return map[phenotypeId] || phenotypeId;
   }
 
   ngOnDestroy(): void {

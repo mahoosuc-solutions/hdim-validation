@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { Subject, interval, takeUntil, switchMap, catchError, of } from 'rxjs';
+import { Subject, Subscription, interval, takeUntil, switchMap, catchError, of } from 'rxjs';
 import {
   DemoSeedingService,
   DemoScenarioResponse,
@@ -14,7 +14,6 @@ import {
 } from '../../core/services/demo-seeding.service';
 import { DemoOrchestratorService } from '../../core/services/demo-orchestrator.service';
 import { MetricCardComponent } from '../../shared/components/metric-card.component';
-import { StatusIndicatorComponent } from '../../shared/components/status-indicator.component';
 import { SeedingProgressComponent } from './seeding-progress.component';
 
 @Component({
@@ -23,7 +22,7 @@ import { SeedingProgressComponent } from './seeding-progress.component';
   imports: [
     CommonModule, MatCardModule, MatButtonModule, MatIconModule,
     MatProgressBarModule, MatChipsModule, MatSnackBarModule,
-    MetricCardComponent, StatusIndicatorComponent, SeedingProgressComponent,
+    MetricCardComponent, SeedingProgressComponent,
   ],
   template: `
     <div class="seeding-dashboard">
@@ -141,6 +140,7 @@ export class SeedingDashboardComponent implements OnInit, OnDestroy {
   orchestrator = inject(DemoOrchestratorService);
   private snackBar = inject(MatSnackBar);
   private destroy$ = new Subject<void>();
+  private pollingSub?: Subscription;
 
   demoReady = false;
   isLoading = true;
@@ -201,11 +201,22 @@ export class SeedingDashboardComponent implements OnInit, OnDestroy {
   }
 
   private startPollingProgress(): void {
-    interval(2000).pipe(
+    let consecutiveErrors = 0;
+    this.pollingSub?.unsubscribe();
+    this.pollingSub = interval(2000).pipe(
       takeUntil(this.destroy$),
       switchMap(() => this.seedingService.getProgress().pipe(catchError(() => of(null)))),
     ).subscribe(progress => {
-      if (!progress) return;
+      if (!progress) {
+        consecutiveErrors++;
+        if (consecutiveErrors >= 5) {
+          this.stopPolling();
+          this.isSeeding = false;
+          this.snackBar.open('Lost connection to seeding service', 'Dismiss', { duration: 5000 });
+        }
+        return;
+      }
+      consecutiveErrors = 0;
       this.progress = progress;
 
       this.orchestrator.updateProgress({
@@ -213,11 +224,17 @@ export class SeedingDashboardComponent implements OnInit, OnDestroy {
       });
 
       if (progress.progressPercent >= 100 || progress.stage === 'COMPLETE' || progress.stage === 'COMPLETED') {
+        this.stopPolling();
         this.isSeeding = false;
         this.snackBar.open('Seeding complete!', 'OK', { duration: 3000 });
         this.orchestrator.goToPhase('STREAMING');
       }
     });
+  }
+
+  private stopPolling(): void {
+    this.pollingSub?.unsubscribe();
+    this.pollingSub = undefined;
   }
 
   resetData(): void {

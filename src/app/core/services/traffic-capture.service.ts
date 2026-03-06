@@ -21,7 +21,7 @@ interface AnnotationRule {
 }
 
 const URL_ANNOTATION_RULES: AnnotationRule[] = [
-  { pattern: /\/demo\/api\/v1\/demo\/scenarios|\/demo\//, phase: 'seeding', service: 'Demo Seeder', action: 'Demo scenario operation', importance: 'high' },
+  { pattern: /\/demo\/api\/v1\/demo\/|\/api\/v1\/demo\//, phase: 'seeding', service: 'Demo Seeder', action: 'Demo scenario operation', importance: 'high' },
   { pattern: /\/fhir\//, phase: 'pipeline', service: 'FHIR Service', action: 'FHIR resource operation', importance: 'high' },
   { pattern: /\/cql-engine\//, phase: 'pipeline', service: 'CQL Engine', action: 'CQL evaluation', importance: 'high' },
   { pattern: /\/quality-measure\//, phase: 'analytics', service: 'Quality Measure', action: 'Quality measure computation', importance: 'high' },

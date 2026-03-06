@@ -156,7 +156,8 @@ export class PerformanceDashboardComponent implements OnInit, OnDestroy {
   }
 
   getBarWidth(ms: number): number {
-    const max = Math.max(this.metrics?.p99LatencyMs || 1, 1);
+    if (!ms || !this.metrics) return 0;
+    const max = Math.max(this.metrics.p99LatencyMs, 1);
     return Math.min((ms / max) * 100, 100);
   }
 

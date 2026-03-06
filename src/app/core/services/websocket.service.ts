@@ -161,18 +161,19 @@ export class WebSocketService {
   private onClose(event: CloseEvent): void {
     this.statusSubject.next(WebSocketStatus.DISCONNECTED);
     this.socket = undefined;
-    if (event.code !== 1000 && this.reconnectAttempts < this.maxReconnectAttempts) {
+    if (event.code !== 1000) {
       this.scheduleReconnect();
     }
   }
 
   private scheduleReconnect(): void {
-    if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-      this.statusSubject.next(WebSocketStatus.ERROR);
-      return;
-    }
     this.reconnectAttempts++;
-    const delay = this.reconnectDelay * Math.pow(2, this.reconnectAttempts - 1);
+    let delay: number;
+    if (this.reconnectAttempts <= this.maxReconnectAttempts) {
+      delay = this.reconnectDelay * Math.pow(2, this.reconnectAttempts - 1);
+    } else {
+      delay = 30000;
+    }
     this.statusSubject.next(WebSocketStatus.RECONNECTING);
     this.reconnectTimer = setTimeout(() => this.connect(), delay);
   }

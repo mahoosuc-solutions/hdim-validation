@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, timer, switchMap, catchError, map } from 'rxjs';
+import { Observable, of, timer, switchMap, catchError, map, timeout } from 'rxjs';
 import { API_CONFIG } from '../../config/api.config';
 
 export interface ServiceHealth {
@@ -31,6 +31,7 @@ export class HealthCheckService {
     const start = performance.now();
 
     return this.http.get<any>(healthUrl, { observe: 'response' }).pipe(
+      timeout(10000),
       map(response => ({
         name,
         url: healthUrl,

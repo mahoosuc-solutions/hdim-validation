@@ -7,12 +7,13 @@ import { routes } from './app.routes';
 import { tenantInterceptor } from './core/interceptors/tenant.interceptor';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { trafficCaptureInterceptor } from './core/interceptors/traffic-capture.interceptor';
+import { errorToastInterceptor } from './core/interceptors/error-toast.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([tenantInterceptor, authInterceptor, trafficCaptureInterceptor])),
+    provideHttpClient(withInterceptors([tenantInterceptor, authInterceptor, errorToastInterceptor, trafficCaptureInterceptor])),
     provideAnimationsAsync(),
   ],
 };

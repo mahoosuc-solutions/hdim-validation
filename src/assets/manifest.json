@@ -5,6 +5,7 @@
   "phenotypes": [
     {
       "id": "t2dm-managed",
+      "mrn": "SYN-T2DM-M-001",
       "name": "Type 2 Diabetes — Managed",
       "bundle": "bundles/t2dm-managed.json",
       "overlay": "overlays/t2dm-managed.json",
@@ -19,6 +20,7 @@
     },
     {
       "id": "t2dm-unmanaged",
+      "mrn": "SYN-T2DM-U-002",
       "name": "Type 2 Diabetes — Unmanaged",
       "bundle": "bundles/t2dm-unmanaged.json",
       "overlay": "overlays/t2dm-unmanaged.json",
@@ -35,6 +37,7 @@
     },
     {
       "id": "chf-polypharmacy",
+      "mrn": "SYN-CHF-P-003",
       "name": "CHF with Polypharmacy",
       "bundle": "bundles/chf-polypharmacy.json",
       "overlay": "overlays/chf-polypharmacy.json",
@@ -48,6 +51,7 @@
     },
     {
       "id": "preventive-gaps",
+      "mrn": "SYN-PG-004",
       "name": "Preventive Care Gaps",
       "bundle": "bundles/preventive-gaps.json",
       "overlay": "overlays/preventive-gaps.json",
@@ -61,6 +65,7 @@
     },
     {
       "id": "healthy-pediatric",
+      "mrn": "SYN-PED-H-005",
       "name": "Healthy Pediatric",
       "bundle": "bundles/healthy-pediatric.json",
       "overlay": "overlays/healthy-pediatric.json",
@@ -74,6 +79,7 @@
     },
     {
       "id": "multi-chronic-elderly",
+      "mrn": "SYN-MCE-006",
       "name": "Multi-Chronic Elderly",
       "bundle": "bundles/multi-chronic-elderly.json",
       "overlay": "overlays/multi-chronic-elderly.json",

@@ -74,7 +74,7 @@ import { RelativeTimePipe } from '../../shared/pipes/relative-time.pipe';
                 <strong>{{ entry.action }}</strong>
                 <span class="audit-resource">{{ entry.resourceType }}{{ entry.resourceId ? ' / ' + entry.resourceId : '' }}</span>
               </div>
-              <span class="audit-outcome" [class]="entry.outcome?.toLowerCase()">{{ entry.outcome }}</span>
+              <span class="audit-outcome" [class]="entry.outcome.toLowerCase()">{{ entry.outcome }}</span>
               <span class="audit-time">{{ entry.timestamp | relativeTime }}</span>
             </div>
           } @empty {
@@ -165,7 +165,16 @@ export class SecurityDashboardComponent implements OnInit, OnDestroy {
       catchError(() => of(null)),
       takeUntil(this.destroy$),
     ).subscribe(data => {
-      this.complianceStatus = data?.status === 'COMPLIANT' ? 'Compliant' : data ? 'Review Needed' : 'Checking...';
+      if (data?.status === 'COMPLIANT') {
+        this.complianceStatus = 'Compliant';
+        this.complianceItems.forEach(item => item.status = 'connected');
+      } else if (data) {
+        this.complianceStatus = 'Review Needed';
+        this.complianceItems.forEach(item => item.status = 'warning');
+      } else {
+        this.complianceStatus = 'Unavailable';
+        this.complianceItems.forEach(item => item.status = 'pending');
+      }
     });
   }
 

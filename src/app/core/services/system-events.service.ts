@@ -171,6 +171,14 @@ export class SystemEventsService implements OnDestroy {
   clearEvents(): void {
     this.eventsBuffer = [];
     this.eventsSubject.next([]);
+    this.operationResults = [];
+    this.processingTimes = [];
+    this.metricsSubject.next({ ...DEFAULT_LIVE_METRICS });
+    this.pipelineSubject.next({
+      nodes: [...DEFAULT_PIPELINE_NODES],
+      connections: [...DEFAULT_PIPELINE_CONNECTIONS],
+      lastUpdated: new Date().toISOString(),
+    });
   }
 
   togglePause(): void {
