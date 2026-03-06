@@ -61,10 +61,17 @@ npx ng build --configuration development
 npx ng build --configuration production
 ```
 
-## Deployment
+## Deployment (Cloud Run)
 
-Firebase Hosting is configured in `firebase.json`. The production environment URL in `src/environments/environment.prod.ts` must be updated to the actual GCP API Gateway URL before deploying.
+Update the API Gateway URL in `src/environments/environment.prod.ts` before deploying.
 
 ```bash
-npx firebase deploy --only hosting
+# Build and deploy to Cloud Run
+gcloud run deploy hdim-validation \
+  --source . \
+  --region us-central1 \
+  --port 8080 \
+  --allow-unauthenticated
 ```
+
+This builds the Docker image via Cloud Build and deploys it to Cloud Run. The nginx container serves the production Angular build with SPA routing and security headers.

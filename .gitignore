@@ -43,8 +43,8 @@ __screenshots__/
 .DS_Store
 Thumbs.db
 
-# Firebase
-firebase-debug.log
+# Docker
+.dockerignore
 
 # Playwright MCP
 .playwright-mcp/
