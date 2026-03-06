@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DemoStepperComponent } from './features/demo-control/demo-stepper.component';
+import { TokenService } from './core/services/token.service';
 
 @Component({
   selector: 'app-root',
@@ -26,4 +27,17 @@ import { DemoStepperComponent } from './features/demo-control/demo-stepper.compo
     }
   `],
 })
-export class App {}
+export class App implements OnInit {
+  private tokenService = inject(TokenService);
+
+  ngOnInit(): void {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    if (token) {
+      this.tokenService.setToken(token);
+      const url = new URL(window.location.href);
+      url.searchParams.delete('token');
+      history.replaceState(null, '', url.pathname + url.search + url.hash);
+    }
+  }
+}

@@ -4,9 +4,12 @@ import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog } from '@angular/material/dialog';
 import { DemoOrchestratorService, DEMO_STEPS } from '../../core/services/demo-orchestrator.service';
 import { StatusIndicatorComponent } from '../../shared/components/status-indicator.component';
 import { SystemEventsService } from '../../core/services/system-events.service';
+import { TokenService } from '../../core/services/token.service';
+import { TokenDialogComponent } from '../../shared/components/token-dialog.component';
 
 @Component({
   selector: 'app-demo-stepper',
@@ -50,6 +53,10 @@ import { SystemEventsService } from '../../core/services/system-events.service';
         <button mat-icon-button matTooltip="Traffic Inspector" (click)="openTrafficInspector()"
           [class.inspector-active]="isInspectorActive">
           <mat-icon>monitoring</mat-icon>
+        </button>
+        <button mat-icon-button matTooltip="API Token" (click)="openTokenDialog()"
+          [class.token-set]="tokenService.hasToken()">
+          <mat-icon>{{ tokenService.hasToken() ? 'lock_open' : 'lock' }}</mat-icon>
         </button>
       </div>
     </div>
@@ -131,12 +138,17 @@ import { SystemEventsService } from '../../core/services/system-events.service';
       background: rgba(0, 188, 212, 0.15);
       border-radius: 50%;
     }
+    .token-set {
+      color: var(--accent-green) !important;
+    }
   `],
 })
 export class DemoStepperComponent {
   orchestrator = inject(DemoOrchestratorService);
+  tokenService = inject(TokenService);
   private router = inject(Router);
   private systemEvents = inject(SystemEventsService);
+  private dialog = inject(MatDialog);
 
   connectionStatus$ = this.systemEvents.connectionStatus$;
 
@@ -150,6 +162,10 @@ export class DemoStepperComponent {
     } else {
       this.router.navigate(['/traffic']);
     }
+  }
+
+  openTokenDialog(): void {
+    this.dialog.open(TokenDialogComponent, { width: '440px' });
   }
 
   get visibleSteps() {
