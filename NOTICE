@@ -1,0 +1,17 @@
+HDIM Validation
+Copyright (c) Grateful House Inc.
+
+This repository is licensed under the Business Source License 1.1 (BSL 1.1).
+See LICENSE for the controlling terms.
+
+Part of the HDIM ecosystem:
+- https://github.com/mahoosuc-solutions/hdim (core platform)
+- https://github.com/mahoosuc-solutions/hdim-accelerator (provider toolkit)
+
+For compliance documentation, see the core platform repository:
+- docs/compliance/BSL_RELEASE_PLAN.md
+- docs/compliance/LICENSING-BOUNDARY.md
+- docs/compliance/THIRD_PARTY_NOTICES.md
+
+This NOTICE is informational. If there is any conflict between this file and
+LICENSE, the LICENSE file governs.
