@@ -1,4 +1,19 @@
+[![License: BSL 1.1](https://img.shields.io/badge/License-BSL%201.1-blue.svg)](LICENSE)
+
 # HDIM Validation
+
+## What This Is
+
+HDIM Validation is the public-facing proof that the [HDIM platform](https://github.com/mahoosuc-solutions/hdim) works. It consists of two codebases:
+
+- **Angular 21 demo app** (`src/`) — a clinical data validation dashboard that connects to a live HDIM backend via API Gateway. No mocks, no simulation.
+- **Next.js 16 marketing site** (`site/`) — public website with DALL-E 3 generated imagery showcasing HDIM capabilities.
+
+## Relationship to HDIM
+
+This repository validates the [hdim](https://github.com/mahoosuc-solutions/hdim) monorepo — a healthcare data integration and management platform with 38+ Java microservices, FHIR R4 ingestion, CQL evaluation, and quality measure reporting. HDIM Validation exercises the platform end-to-end with synthetic patient data and real API calls.
+
+---
 
 Standalone Angular demo app for the HIMS conference, showcasing the HDIM platform's clinical data ingestion, validation, and analytics capabilities. Connects to a live HDIM backend via GCP API Gateway — no simulation.
 
@@ -75,3 +90,11 @@ gcloud run deploy hdim-validation \
 ```
 
 This builds the Docker image via Cloud Build and deploys it to Cloud Run. The nginx container serves the production Angular build with SPA routing and security headers.
+
+---
+
+## License
+
+This project is licensed under the [Business Source License 1.1](LICENSE). See the LICENSE file for details.
+
+Copyright Grateful House Inc.
