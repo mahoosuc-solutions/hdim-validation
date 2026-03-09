@@ -48,3 +48,15 @@ Thumbs.db
 
 # Playwright MCP
 .playwright-mcp/
+
+# Debug logs
+firebase-debug.log
+*.log
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Vercel
+.vercel/
