@@ -9,9 +9,9 @@ Part of the HDIM ecosystem:
 - https://github.com/mahoosuc-solutions/hdim-accelerator (provider toolkit)
 
 For compliance documentation, see the core platform repository:
-- docs/compliance/BSL_RELEASE_PLAN.md
-- docs/compliance/LICENSING-BOUNDARY.md
-- docs/compliance/THIRD_PARTY_NOTICES.md
+- https://github.com/mahoosuc-solutions/hdim/blob/main/docs/compliance/BSL_RELEASE_PLAN.md
+- https://github.com/mahoosuc-solutions/hdim/blob/main/docs/compliance/LICENSING-BOUNDARY.md
+- https://github.com/mahoosuc-solutions/hdim/blob/main/docs/compliance/THIRD_PARTY_NOTICES.md
 
 This NOTICE is informational. If there is any conflict between this file and
 LICENSE, the LICENSE file governs.
