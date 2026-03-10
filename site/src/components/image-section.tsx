@@ -1,5 +1,3 @@
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
-
 interface ImageSectionProps {
   src: string;
   alt: string;
@@ -17,8 +15,7 @@ export function ImageSection({
 }: ImageSectionProps) {
   const hasImage = src && src.length > 0;
 
-  // Prepend basePath and derive responsive srcSet
-  const fullSrc = hasImage ? `${BASE_PATH}${src}` : "";
+  const fullSrc = hasImage ? src : "";
   const srcSet = hasImage
     ? (() => {
         const base = fullSrc.replace(/\.\w+$/, "");

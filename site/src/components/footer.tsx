@@ -29,7 +29,7 @@ export function Footer() {
             <h4>Connect</h4>
             <ul>
               <li><a href="#contact">Request Demo</a></li>
-              <li><a href="mailto:info@hdim.health">Contact Us</a></li>
+              <li><a href="mailto:sales@mahoosuc.solutions">Contact Us</a></li>
             </ul>
           </div>
         </div>

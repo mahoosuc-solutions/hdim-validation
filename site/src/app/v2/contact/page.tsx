@@ -44,7 +44,7 @@ export default function ContactPage() {
                 of patient synthesis, FHIR ingestion, CQL evaluation, and the
                 clinical intelligence dashboard.
               </p>
-              <CTAButton href="mailto:demo@hdim.health" variant="primary">
+              <CTAButton href="mailto:sales@mahoosuc.solutions" variant="primary">
                 Schedule a Demo
               </CTAButton>
             </div>
